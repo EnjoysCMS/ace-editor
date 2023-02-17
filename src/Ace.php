@@ -18,6 +18,15 @@ class Ace implements ContentEditorInterface
 {
 
     private ?string $selector = null;
+    private array $options = [
+                        'showLineNumbers' => 'true',
+                        'showPrintMargin' => 'true',
+                        'fontSize' => '14',
+        'enableBasicAutocompletion' => 'true',
+        'enableLiveAutocompletion' => 'false',
+        'theme' => null,
+        'mode' => 'html'
+    ];
 
     /**
      * @throws \Exception
@@ -26,18 +35,21 @@ class Ace implements ContentEditorInterface
         private Environment $twig,
         private AssetsCollector\Assets $assets,
         private LoggerInterface $logger,
-        private ?string $template = null
+        private ?string $template = null,
+        array $options = []
     ) {
         if (!file_exists(__DIR__ . '/../node_modules/ace-builds')) {
-            throw new \RuntimeException(sprintf('Run: cd %s && yarn install', realpath(__DIR__.'/..')));
+            throw new \RuntimeException(sprintf('Run: cd %s && yarn install', realpath(__DIR__ . '/..')));
         }
+
+        $this->options = array_merge($this->options, $options);
 
         $this->initialize();
     }
 
     private function getTemplate(): ?string
     {
-        return $this->template ?? __DIR__.'/template/html.twig';
+        return $this->template ?? __DIR__ . '/template/html.twig';
     }
 
     /**
@@ -99,7 +111,8 @@ class Ace implements ContentEditorInterface
             $twigTemplate,
             [
                 'editor' => $this,
-                'selector' => $this->getSelector()
+                'selector' => $this->getSelector(),
+                'options' => $this->options
             ]
         );
     }
