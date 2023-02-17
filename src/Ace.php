@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\ContentEditor\AceEditor;
 
+use Enjoys\AssetsCollector;
 use Enjoys\AssetsCollector\Assets;
 use EnjoysCMS\Core\Components\ContentEditor\ContentEditorInterface;
-use Enjoys\AssetsCollector;
+use phpDocumentor\Reflection\Types\False_;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twig\TwigFunction;
 
 
 class Ace implements ContentEditorInterface
@@ -19,9 +21,9 @@ class Ace implements ContentEditorInterface
 
     private ?string $selector = null;
     private array $options = [
-                        'showLineNumbers' => 'true',
-                        'showPrintMargin' => 'true',
-                        'fontSize' => '14',
+        'showLineNumbers' => 'true',
+        'showPrintMargin' => 'true',
+        'fontSize' => '14',
         'enableBasicAutocompletion' => 'true',
         'enableLiveAutocompletion' => 'false',
         'theme' => null,
@@ -102,6 +104,21 @@ class Ace implements ContentEditorInterface
     public function getEmbedCode(): string
     {
         $twigTemplate = $this->getTemplate();
+
+        /**
+         * TODO: spl_object_id - in doubt
+         */
+        $this->twig->registerUndefinedFunctionCallback(
+            function ($name) {
+                if ($name === 'spl_object_id'){
+                    return new TwigFunction('spl_object_id', function ($data){
+                        return spl_object_id($data);
+                    });
+                }
+                return false;
+            }
+        );
+
         if (!$this->twig->getLoader()->exists($twigTemplate)) {
             throw new \RuntimeException(
                 sprintf("ContentEditor: (%s): Нет шаблона в по указанному пути: %s", self::class, $twigTemplate)

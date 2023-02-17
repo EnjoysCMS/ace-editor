@@ -1,19 +1,21 @@
+
+{% set id = spl_object_id(editor) %}
 <style media="screen">
-    #html-editor {
+    .ace_editor  {
         position: relative;
         height: 300px;
     }
 </style>
 <script>
-    let textarea = document.getElementById("{{ selector|replace({'#':''}) }}")
-    textarea.style.display = 'none';
-    let html_editor = document.createElement("pre");
-    html_editor.setAttribute('id', 'html-editor');
-    textarea.after(html_editor);
+    let textarea_{{ id }} = document.getElementById("{{ selector|replace({'#':''}) }}")
+    textarea_{{ id }}.style.display = 'none';
+    let html_editor_{{ id }}  = document.createElement("pre");
+    html_editor_{{ id }}.setAttribute('id', 'html-editor_{{ id }} ');
+    textarea_{{ id }}.after(html_editor_{{ id }});
 
-    let editor = ace.edit(html_editor);
-    editor.session.setMode("ace/mode/{{ options.mode ?? 'html' }}");
-    editor.setOptions({
+    let editor_{{ id }}  = ace.edit(html_editor_{{ id }} );
+    editor_{{ id }}.session.setMode("ace/mode/{{ options.mode ?? 'html' }}");
+    editor_{{ id }}.setOptions({
            selectionStyle: "text",
            showLineNumbers: {{options.showLineNumbers ?? 'true' }},
            showPrintMargin: {{ options.showPrintMargin ?? 'true'}},
@@ -21,14 +23,14 @@
            enableBasicAutocompletion: {{ options.enableBasicAutocompletion ?? 'false' }},
            enableLiveAutocompletion: {{ options.enableLiveAutocompletion ?? 'false' }},
     });
-    editor.setValue(textarea.value);
+    editor_{{ id }}.setValue(textarea_{{ id }}.value);
 
     {%  if  options.theme %}
-    editor.setTheme("ace/theme/{{ options.theme }}");
+    editor_{{ id }}.setTheme("ace/theme/{{ options.theme }}");
     {% endif %}
 
-    editor.getSession().on("change", function () {
-        textarea.value = editor.getValue();
+    editor_{{ id }}.getSession().on("change", function () {
+        textarea_{{ id }}.value = editor_{{ id }}.getValue();
     });
 
 </script>
