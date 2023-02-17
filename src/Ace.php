@@ -45,7 +45,7 @@ class Ace implements ContentEditorInterface
      */
     private function initialize()
     {
-        $path = str_replace(getenv('ROOT_PATH'), '', __DIR__);
+        $path = str_replace(getenv('ROOT_PATH'), '', realpath(__DIR__ . '/../'));
 
         AssetsCollector\Helpers::createSymlink(
             sprintf('%s/assets%s/node_modules/ace-builds', $_ENV['PUBLIC_DIR'], $path),
