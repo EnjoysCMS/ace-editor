@@ -7,7 +7,6 @@ namespace EnjoysCMS\ContentEditor\AceEditor;
 use Enjoys\AssetsCollector;
 use Enjoys\AssetsCollector\Assets;
 use EnjoysCMS\Core\Components\ContentEditor\ContentEditorInterface;
-use phpDocumentor\Reflection\Types\False_;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
