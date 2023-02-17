@@ -1,0 +1,33 @@
+<style media="screen">
+    #html-editor {
+        position: relative;
+        height: 300px;
+    }
+</style>
+<script>
+    let textarea = document.getElementById("{{ selector|replace({'#':''}) }}")
+    textarea.style.display = 'none';
+    let html_editor = document.createElement("pre");
+    html_editor.setAttribute('id', 'html-editor');
+    textarea.after(html_editor);
+
+    let editor = ace.edit(html_editor);
+    editor.session.setMode("ace/mode/html");
+    editor.setOptions({
+           selectionStyle: "text",
+           showLineNumbers: false,
+           showPrintMargin: false,
+           fontSize: 16,
+           enableBasicAutocompletion: true,
+           enableLiveAutocompletion: true,
+    });
+    editor.setValue(textarea.value);
+{#    editor.setTheme("ace/theme/monokai");#}
+
+    editor.getSession().on("change", function () {
+        textarea.value = editor.getValue();
+    });
+
+</script>
+
+

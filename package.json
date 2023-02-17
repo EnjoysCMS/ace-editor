@@ -1,0 +1,8 @@
+{
+  "name": "ace-editor",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "ace-builds": "^1.15.1"
+  }
+}
