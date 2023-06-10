@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "enjoyscms/core": "^4.7"
+        "enjoyscms/core": ">=4.7"
     },
     "scripts": {
         "post-install-cmd": "EnjoysCMS\\ContentEditor\\AceEditor\\Helpers::assetsInstall",
