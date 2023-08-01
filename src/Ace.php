@@ -6,7 +6,7 @@ namespace EnjoysCMS\ContentEditor\AceEditor;
 
 use Enjoys\AssetsCollector;
 use Enjoys\AssetsCollector\Assets;
-use EnjoysCMS\Core\Components\ContentEditor\ContentEditorInterface;
+use EnjoysCMS\Core\ContentEditor\ContentEditorInterface;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -33,10 +33,10 @@ class Ace implements ContentEditorInterface
      * @throws \Exception
      */
     public function __construct(
-        private Environment $twig,
-        private AssetsCollector\Assets $assets,
-        private LoggerInterface $logger,
-        private ?string $template = null,
+        private readonly Environment $twig,
+        private readonly AssetsCollector\Assets $assets,
+        private readonly LoggerInterface $logger,
+        private readonly ?string $template = null,
         array $options = []
     ) {
         if (!file_exists(__DIR__ . '/../node_modules/ace-builds')) {
@@ -56,7 +56,7 @@ class Ace implements ContentEditorInterface
     /**
      * @throws \Exception
      */
-    private function initialize()
+    private function initialize(): void
     {
         $path = str_replace(getenv('ROOT_PATH'), '', realpath(__DIR__ . '/../'));
 
