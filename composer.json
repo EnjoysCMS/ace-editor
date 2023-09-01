@@ -21,11 +21,11 @@
     "scripts": {
         "ace-editor-assets-install": "EnjoysCMS\\ContentEditor\\AceEditor\\Composer\\Scripts\\AssetsInstallCommand",
         "post-install-cmd": [
-            "echo -e \"\\x1b[1mAce Editor\\x1b[00m\"",
+            "@print-module-name Ace Editor",
             "@ace-editor-assets-install"
         ],
         "post-update-cmd": [
-            "echo -e \"\\x1b[1mAce Editor\\x1b[00m\"",
+            "@print-module-name Ace Editor",
             "@ace-editor-assets-install"
         ]
     }
