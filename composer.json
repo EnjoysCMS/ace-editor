@@ -4,7 +4,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "EnjoysCMS\\ContentEditor\\AceEditor\\": "src/"
+            "EnjoysCMS\\ContentEditor\\AceEditor\\": "src/",
+            "EnjoysCMS\\ContentEditor\\AceEditor\\Composer\\Scripts\\": "scripts/"
         }
     },
     "authors": [
@@ -18,7 +19,14 @@
         "enjoyscms/core": "^6.0@dev"
     },
     "scripts": {
-        "post-install-cmd": "EnjoysCMS\\ContentEditor\\AceEditor\\Helpers::assetsInstall",
-        "post-update-cmd": "EnjoysCMS\\ContentEditor\\AceEditor\\Helpers::assetsInstall"
+        "ace-editor-assets-install": "EnjoysCMS\\ContentEditor\\AceEditor\\Composer\\Scripts\\AssetsInstallCommand",
+        "post-install-cmd": [
+            "echo -e \"\\x1b[1mAce Editor\\x1b[00m\"",
+            "@ace-editor-assets-install"
+        ],
+        "post-update-cmd": [
+            "echo -e \"\\x1b[1mAce Editor\\x1b[00m\"",
+            "@ace-editor-assets-install"
+        ]
     }
 }
