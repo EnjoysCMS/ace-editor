@@ -14,6 +14,8 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\TwigFunction;
 
+use function Enjoys\FileSystem\makeSymlink;
+
 
 class Ace implements ContentEditorInterface
 {
@@ -59,15 +61,19 @@ class Ace implements ContentEditorInterface
     private function initialize(): void
     {
         $path = str_replace(getenv('ROOT_PATH'), '', realpath(__DIR__ . '/../'));
+        $link = sprintf('%s/assets%s/node_modules/ace-builds', $_ENV['PUBLIC_DIR'], $path);
+        $target = __DIR__ . '/../node_modules/ace-builds';
 
-        AssetsCollector\Helpers::createSymlink(
-            sprintf('%s/assets%s/node_modules/ace-builds', $_ENV['PUBLIC_DIR'], $path),
-            __DIR__ . '/../node_modules/ace-builds',
-            $this->logger
-        );
+        try {
+            if (makeSymlink($link, $target)) {
+                $this->logger->info(sprintf('Created symlink: %s', $link));
+            }
+        } catch (\Exception $e) {
+            $this->logger->notice($e->getMessage());
+        }
 
         $this->assets->add(
-            'js',
+            AssetsCollector\AssetType::JS,
             [
                 [
                     __DIR__ . '/../node_modules/ace-builds/src-noconflict/ace.js',
@@ -109,8 +115,8 @@ class Ace implements ContentEditorInterface
          */
         $this->twig->registerUndefinedFunctionCallback(
             function ($name) {
-                if ($name === 'spl_object_id'){
-                    return new TwigFunction('spl_object_id', function ($data){
+                if ($name === 'spl_object_id') {
+                    return new TwigFunction('spl_object_id', function ($data) {
                         return spl_object_id($data);
                     });
                 }

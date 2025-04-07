@@ -16,7 +16,8 @@
     ],
     "require": {
         "php": "^8.1",
-        "enjoyscms/core": "^6.0@dev"
+        "enjoyscms/core": "^6.0@dev",
+        "enjoys/assets-collector": "^3.0"
     },
     "scripts": {
         "ace-editor-assets-install": "EnjoysCMS\\ContentEditor\\AceEditor\\Composer\\Scripts\\AssetsInstallCommand",
